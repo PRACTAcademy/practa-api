@@ -33,7 +33,7 @@ All endpoints are designed with **user privacy**, **data integrity**, and **syst
 
 ## 🧪 Secure Development Guidelines
 
-- Use libraries like `helmet` for secure HTTP headers.
+- Use CORS for securing.
 - Keep all dependencies up to date.
 - Avoid use of `alert()` or insecure front-end practices — prefer toast notifications for feedback.
 - Ensure centralized and responsive design to minimize exposure to layout manipulation attacks.
