@@ -14,22 +14,19 @@ All endpoints are designed with **user privacy**, **data integrity**, and **syst
 - CORS is enabled and **strictly restricted** to **authorized MITPA domains**.
 - Unauthorized browser requests from unknown origins are **automatically blocked**.
 
-### 2. **Rate Limiting (Recommended for Production)**
-- Implement request throttling per IP to prevent abuse, brute-force attacks, or spam.
-
-### 3. **Verification System**
+### 2. **Verification System**
 - Emails are used to validate user identity.
 - Verification codes are generated and validated using secure, temporary in-memory storage or Redis.
 - Limited verification attempts per user/IP should be enforced (recommended: 3–5 max).
 
-### 4. **Input Sanitization**
+### 3. **Input Sanitization**
 - All input data (query, body, params) should be validated and sanitized to prevent XSS, SQL/NoSQL injection, and other attacks.
 
-### 5. **Token and Secrets Handling**
+### 4. **Token and Secrets Handling**
 - All environment variables (tokens, credentials, and secret keys) must be kept in a `.env` file and **never committed to the repository**.
 - Recommended: Rotate credentials regularly and apply least privilege principle.
 
-### 6. **HTTPS Only**
+### 5. **HTTPS Only**
 - All production instances of the MITPA API must use **HTTPS** to encrypt traffic.
 
 ---
