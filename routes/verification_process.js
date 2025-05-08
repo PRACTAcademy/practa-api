@@ -3,11 +3,20 @@
 const express = require('express');
 const axios = require('axios');
 const router = express.Router();
+const { body, query, validationResult } = require('express-validator');
 require('dotenv').config();
 
 const verificationCodes = new Map();
 
-router.post('/generate-code', async (req, res) => {
+router.post('/generate-code', [
+    body('to').trim().isEmail().normalizeEmail(),
+    body('user_id').trim().isString().notEmpty().escape()
+], async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
+
     try {
         const { to, user_id } = req.body;
 
@@ -39,7 +48,15 @@ router.post('/generate-code', async (req, res) => {
     }
 });
 
-router.get('/verify-code', (req, res) => {
+router.get('/verify-code', [
+    query('user_id').trim().isString().notEmpty().escape(),
+    query('code').trim().isString().notEmpty().escape()
+], (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
+
     try {
         const { user_id, code } = req.query;
 

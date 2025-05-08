@@ -4,9 +4,18 @@ const express = require('express');
 const axios = require('axios');
 const router = express.Router();
 const { putObject } = require('../utils/digitalOceanSpace');
+const { body, validationResult } = require('express-validator');
 require('dotenv').config();
 
-router.post('/verify-user', async (req, res) => {
+router.post('/verify-user', [
+    body('user_id').trim().isString().notEmpty().escape(),
+    body('email').optional().trim().isEmail().normalizeEmail()
+], async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
+
     try {
         const { user_id, email } = req.body;
 

@@ -2,6 +2,7 @@
 
 const express = require('express');
 const { Client, GatewayIntentBits } = require('discord.js');
+const { body, validationResult } = require('express-validator');
 require('dotenv').config();
 
 const router = express.Router();
@@ -9,7 +10,15 @@ const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBit
 
 client.login(process.env.DISCORD_TOKEN);
 
-router.post('/share-result', async (req, res) => {
+router.post('/share-result', [
+    body('userId').trim().isString().notEmpty().escape(),
+    body('message').optional().trim().isString().escape()
+], async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
+
     const { userId, message } = req.body;
     const file = req.files?.image;
 

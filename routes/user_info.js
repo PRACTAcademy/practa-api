@@ -1,10 +1,18 @@
 const express = require('express');
 const { getObject } = require('../utils/digitalOceanSpace');
 const Sentry = require('../config/sentryConfig');
+const { param, validationResult } = require('express-validator');
 
 const router = express.Router();
 
-router.get('/user-info/:userId', async (req, res) => {
+router.get('/user-info/:userId', [
+    param('userId').trim().isString().notEmpty().escape()
+], async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
+
     const { userId } = req.params;
 
     try {

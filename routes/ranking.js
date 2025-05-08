@@ -4,6 +4,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const { getObject } = require('../utils/digitalOceanSpace');
 const Sentry = require('../config/sentryConfig');
+const { param, validationResult } = require('express-validator');
 
 require('dotenv').config();
 

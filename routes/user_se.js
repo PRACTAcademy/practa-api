@@ -1,10 +1,18 @@
 const express = require('express');
 const { getObject, putObject } = require('../utils/digitalOceanSpace');
 const Sentry = require('../config/sentryConfig');
+const { param, body, validationResult } = require('express-validator');
 
 const router = express.Router();
 
-router.get('/user-ses/:userId', async (req, res) => {
+router.get('/user-ses/:userId', [
+    param('userId').trim().isString().notEmpty().escape()
+], async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
+
     const { userId } = req.params;
 
     try {
@@ -28,7 +36,18 @@ router.get('/user-ses/:userId', async (req, res) => {
     }
 });
 
-router.post('/user-ses', async (req, res) => {
+router.post('/user-ses', [
+    body('userId').trim().isString().notEmpty().escape(),
+    body('SE.title').trim().isString().notEmpty().escape(),
+    body('SE.score').isNumeric(),
+    body('SE.total').isNumeric(),
+    body('SE.date').trim().isString().notEmpty().escape()
+], async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
+
     const { userId, SE } = req.body;
 
     if (!userId || !SE || !SE.title || SE.score == null || SE.total == null || !SE.date) {
