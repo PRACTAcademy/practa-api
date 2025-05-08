@@ -28,7 +28,6 @@ router.get('/user-ses/:userId', async (req, res) => {
     }
 });
 
-// POST /user-ses - adds a new SE for the user and updates completedSEs
 router.post('/user-ses', async (req, res) => {
     const { userId, SE } = req.body;
 
@@ -39,7 +38,6 @@ router.post('/user-ses', async (req, res) => {
     try {
         const seFileKey = `${userId}_se`;
 
-        // Try to fetch the file; if it doesn't exist, create a new one
         let existingSEData;
         try {
             existingSEData = await getObject(seFileKey);
@@ -56,7 +54,6 @@ router.post('/user-ses', async (req, res) => {
             return res.status(409).json({ error: 'SE with the same title already exists.' });
         }
 
-        // Add new SE
         existingSEData.SEs.push(SE);
         await putObject(seFileKey, existingSEData);
         let userData;
