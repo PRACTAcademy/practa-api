@@ -24,7 +24,7 @@ router.post('/generate-code', async (req, res) => {
             text: `Your verification code is: ${code}`,
             html: `
         <div style="text-align: center;">
-            <img src="https://raw.githubusercontent.com/TheusHen/TheusHen/refs/heads/main/src/assets/mitpa.png" alt="MITPA Logo" style="display: block; margin: 0 auto;"/>
+            <img src="https://practa.tech/Logo.png" alt="MITPA Logo" style="display: block; margin: 0 auto;"/>
             <p>Your verification code is: <strong>${code}</strong></p>
         </div>
     `

@@ -47,4 +47,3 @@ async function putObject(id, data) {
 }
 
 module.exports = { getObject, putObject };
-
