@@ -60,3 +60,4 @@ profile*
 *flamegraph*
 
 .env
+.vercel
